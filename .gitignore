@@ -1,0 +1,10 @@
+.DS_Store
+.idea
+vendor
+var/*
+!var/.gitkeep
+test_*
+.env
+# root env file is in repo, is only for convenience not swapping
+!/.env
+docker-compose.override.yml
