@@ -8,7 +8,7 @@ namespace MyroStadler\ProtoWeb\Transaction;
 
 use GuzzleHttp\Client;
 
-interface GuzzleTransactionInterface
+interface ProtoWebGuzzleTransactionInterface
 {
     public const OUTPUT_NONE = 'none'; // the default if not set
     public const OUTPUT_TEXT = 'text';

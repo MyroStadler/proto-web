@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace MyroStadler\ProtoWeb;
 
 
-class Env
+class ProtoWebEnv
 {
     public static function get($key): ?string
     {

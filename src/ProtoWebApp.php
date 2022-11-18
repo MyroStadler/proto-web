@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace MyroStadler\ProtoWeb;
 
-use MyroStadler\ProtoWeb\Transaction\GuzzleTransactionFactoryInterface;
+use MyroStadler\ProtoWeb\Transaction\ProtoWebGuzzleTransactionFactoryInterface;
 use Symfony\Component\Dotenv\Dotenv;
 
-class App
+class ProtoWebApp
 {
-    protected GuzzleTransactionFactoryInterface $transactionFactory;
+    protected ProtoWebGuzzleTransactionFactoryInterface $transactionFactory;
 
     public function __construct(
         bool $showErrors = true,
@@ -34,7 +34,7 @@ class App
         ;
     }
 
-    public function setTransactionFactory(GuzzleTransactionFactoryInterface $transactionFactory): static
+    public function setTransactionFactory(ProtoWebGuzzleTransactionFactoryInterface $transactionFactory): static
     {
         $this->transactionFactory = $transactionFactory;
         return $this;

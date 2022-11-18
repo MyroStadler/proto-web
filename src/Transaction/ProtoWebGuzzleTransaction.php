@@ -7,7 +7,7 @@ namespace MyroStadler\ProtoWeb\Transaction;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 
-class GuzzleTransaction implements GuzzleTransactionInterface
+class ProtoWebGuzzleTransaction implements ProtoWebGuzzleTransactionInterface
 {
     protected Client $client;
     protected string $method = 'GET';

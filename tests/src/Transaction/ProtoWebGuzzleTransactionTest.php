@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Test\MyroStadler\ProtoWeb\Transaction;
 
 use GuzzleHttp\Client;
-use MyroStadler\ProtoWeb\Transaction\GuzzleTransaction;
+use MyroStadler\ProtoWeb\Transaction\ProtoWebGuzzleTransaction;
 use PHPUnit\Framework\TestCase;
 use Test\MyroStadler\ProtoWeb\SpyCall;
 
-class GuzzleTransactionTest extends TestCase
+class ProtoWebGuzzleTransactionTest extends TestCase
 {
     public const BASE_URL = 'foo';
     public const ENDPOINT = 'bar';
@@ -62,12 +62,12 @@ class GuzzleTransactionTest extends TestCase
         );
     }
 
-    protected function createObjectUnderTest(?Client &$client = null): GuzzleTransaction
+    protected function createObjectUnderTest(?Client &$client = null): ProtoWebGuzzleTransaction
     {
         if (is_null($client)) {
             $client = new GuzzleClientSpy();
         }
-        return (new GuzzleTransaction())
+        return (new ProtoWebGuzzleTransaction())
             ->setClient(
                 $client
             )
