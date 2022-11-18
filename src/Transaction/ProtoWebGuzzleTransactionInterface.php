@@ -33,10 +33,6 @@ interface ProtoWebGuzzleTransactionInterface
 
     public function setMethod(string $method): static;
 
-    public function getOutputMode(): string;
-
-    public function setOutputMode(string $outputMode): static;
-
     public function getStatus(): ?int;
 
     public function render(?ProtoWebRendererInterface $renderer = null): ResponseInterface;
