@@ -7,14 +7,11 @@ namespace MyroStadler\ProtoWeb\Transaction;
 
 
 use GuzzleHttp\Client;
+use MyroStadler\ProtoWeb\Renderer\ProtoWebRendererInterface;
+use Psr\Http\Message\ResponseInterface;
 
 interface ProtoWebGuzzleTransactionInterface
 {
-    public const OUTPUT_NONE = 'none'; // the default if not set
-    public const OUTPUT_TEXT = 'text';
-    public const OUTPUT_JSON = 'json';
-    public const OUTPUT_HTML_BODY = 'body';
-    public const OUTPUT_HTML_BODY_PRE = 'pre';
 
     public function setClient(Client $client): static;
 
@@ -42,6 +39,6 @@ interface ProtoWebGuzzleTransactionInterface
 
     public function getStatus(): ?int;
 
-    public function render(): void;
+    public function render(?ProtoWebRendererInterface $renderer = null): ResponseInterface;
 
 }

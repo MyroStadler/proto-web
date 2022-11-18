@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MyroStadler\ProtoWeb\Transaction;
 
 use GuzzleHttp\Client;
+use MyroStadler\ProtoWeb\Renderer\ProtoWebRendererInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class ProtoWebGuzzleTransaction implements ProtoWebGuzzleTransactionInterface
@@ -14,7 +15,6 @@ class ProtoWebGuzzleTransaction implements ProtoWebGuzzleTransactionInterface
     protected string $baseUrl = '';
     protected string $endpoint = '';
     protected array $guzzleOptions = [];
-    protected string $outputMode = self::OUTPUT_NONE;
     protected ResponseInterface $response;
 
     public function setClient(Client $client): static
@@ -113,31 +113,13 @@ class ProtoWebGuzzleTransaction implements ProtoWebGuzzleTransactionInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getOutputMode(): string
-    {
-        return $this->outputMode;
-    }
-
-    /**
-     * @param string $outputMode
-     * @return static
-     */
-    public function setOutputMode(string $outputMode): static
-    {
-        $this->outputMode = $outputMode;
-        return $this;
-    }
-
     public function getStatus(): ?int
     {
         return $this->response?->getStatusCode();
     }
 
 
-    public function render(): void
+    public function render(?ProtoWebRendererInterface $renderer = null): ResponseInterface
     {
         if (!$this->response) {
             throw new \Exception(
@@ -145,62 +127,9 @@ class ProtoWebGuzzleTransaction implements ProtoWebGuzzleTransactionInterface
             );
         }
         http_response_code($this->getStatus());
-        $bodyContents = $this->response->getBody()->getContents();
-        switch ($this->getOutputMode()) {
-            default:
-            case self::OUTPUT_NONE:
-                break;
-            case self::OUTPUT_TEXT:
-                $this->print($bodyContents);
-                break;
-            case self::OUTPUT_JSON:
-                $this->printAsJson($bodyContents);
-                break;
-            case self::OUTPUT_HTML_BODY:
-                $this->printAsHtmlBody($bodyContents);
-                break;
-            case self::OUTPUT_HTML_BODY_PRE:
-                $this->printAsHtmlBodyPre($bodyContents);
-                break;
+        if (!$renderer) {
+            return $this->response;
         }
+        return $renderer->render($this->response);
     }
-
-
-
-    protected function printAsJson(string $jsonString): void
-    {
-        header('Content-Type:application/json');
-        echo $jsonString;
-    }
-
-    protected function print(string $text): void
-    {
-        echo $text;
-    }
-
-    protected function printAsHtmlBody(string $bodyContents): void
-    {
-        echo <<<HTML
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FleetPortal</title>
-</head>
-<body>
-{$bodyContents}
-</body>
-</html>
-HTML;
-
-    }
-
-    protected function printAsHtmlBodyPre(string $preContents): void
-    {
-        $this->printAsHtmlBody(
-            "<pre>{$preContents}</pre>"
-        );
-    }
-
-
 }
